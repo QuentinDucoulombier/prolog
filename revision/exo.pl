@@ -40,3 +40,61 @@ espionne(P,C):-
     pirate(P),
     communique(C,P).
 
+%ppcm(a,b)*pgcd =  A*B
+
+pgcd(A,B,S):-
+    A #< B,
+    B1 #= B - A,
+    pgcd(A,B1,S).
+
+pgcd(A,B,S):-
+    A #> B,
+    pgcd(B,A,S).
+
+pgcd(A,A,A).
+
+ppcm(A,B,D):-
+
+    pgcd(A,B,S),
+    D #= A*B div S.
+
+verifInf([T|R],I):-
+    T #>= I,
+    verifInf(R,I).
+
+verifInf([],_).
+
+verifSup([T|R],S):-
+    T #=< S,
+    verifSup(R,S).
+
+verifSup([],_).
+
+verifInfSup(L,I,S):-
+    verifInf(L,I),
+    verifSup(L,S).
+
+/*
+listeSuppr([T1|R1],L2,L):-
+    member(T1, L2),
+    append(L, T1),
+    listeSuppr(R1,L2,L).
+
+listeSuppr(L1,[T2|R2],L):-
+    member(T2, L1),
+    append(L, T2),
+    listeSuppr(L1,R2,L).
+
+listeSuppr([],[],[]).
+*/
+
+listeSuppr([],_,[]).
+
+listeSuppr([T|R],L2,L3):-
+    member(T,L2),
+    listeSuppr(R,L2,L3).
+
+listeSuppr([T|R],L2,[T|L3]):-
+    not(member(T,L2)),
+    listeSuppr(R,L2,L3).
+    
