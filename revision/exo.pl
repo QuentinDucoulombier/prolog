@@ -98,3 +98,28 @@ listeSuppr([T|R],L2,[T|L3]):-
     not(member(T,L2)),
     listeSuppr(R,L2,L3).
     
+add_tail([],Elt,[Elt]).
+add_tail([T|R],Elt,[T|L]):-
+    add_tail(R,Elt,L).
+
+last(X,[X]).
+last(X,[_|R]) :-
+    last(X,[R]).
+
+
+concatee(L,[],L).
+concatee(L,[T|R],[T|L2]):-
+    concatee(L,R,L2).
+
+inv(L,R) :- 
+    inv(L,[],R).
+inv([],R,R).
+inv([H|T],R,A) :- 
+    inv(T,[H|R],A).
+
+
+%test DS2018
+listeImpairPair([],[],[]).
+listeImpPair([A,B|R],[A|L2],[B|L3]):-
+    listeImpairPair(R,L2,L3).
+
