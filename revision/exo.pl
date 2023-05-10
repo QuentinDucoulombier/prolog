@@ -119,7 +119,112 @@ inv([H|T],R,A) :-
 
 
 %test DS2018
-listeImpairPair([],[],[]).
+listeImpPair([],[],[]).
+listeImpPair([T],[T],[]).
 listeImpPair([A,B|R],[A|L2],[B|L3]):-
-    listeImpairPair(R,L2,L3).
+    listeImpPair(R,L2,L3).
 
+/*
+listeMoit([],[],[]).
+%listeMoit([T],[T],[]).
+listeMoit([T|R],[T|L1],L2):-
+    length(R,N1),
+    length(L1,N2),
+    dif(N1,N2),
+    listeMoit(R,L1,L2).
+listeMoit([T|R],L1,[T|L2]):-
+    length([T|R],N1),
+    length(L2,N2),
+    N3 = N1 div 2;
+    dif(N3,N2),
+    listeMoit(R,L1,L2).
+*/
+
+liste_premiereMoitie_deuxiemeMoitie(L1, L2, L3) :-
+    length(L1, Len),
+    HalfLen0 #= Len - Len mod 2,
+    HalfLen #= HalfLen0 // 2,
+    split(L1, HalfLen, L2, L3).
+
+split(L, N, L1, L2) :-
+    length(L1, N),
+    append(L1, L2, L),
+    length(L2, N).
+
+    
+listeSupp([T|R],Elt,L):-
+    T = Elt,
+    listeSupp(R,Elt,L).
+
+listeSupp([T|R],Elt,[T|L]):-
+    dif(Elt,T),
+    listeSupp(R,Elt,L).
+
+listeSupp([],_,[]).
+
+
+entier_facto(N,R):-
+    entier_factorielle(N,1,R).
+
+entier_factorielle(0, Acc, Acc).
+entier_factorielle(N, Acc, R) :-
+    N #> 0,
+    NewAcc #= N * Acc,
+    NewN #= N - 1,
+    entier_factorielle(NewN, NewAcc, R).
+
+
+%
+borneSupInf([],_,_).
+borneSupInf([T|R],S,I):-
+    T #=< S,
+    T #>= I,
+    borneSupInf(R,S,I).
+
+listRed([],_,[]).
+listRed([T|R],L,[T|L1]):-
+    not(member(T, L)),
+    listRed(R,L,L1).
+listRed([T|R],L,L1):-
+    member(T,L),
+    listRed(R,L,L1).
+    
+
+is_prime(N):-
+    M #= N-1,
+    non_div(N,M).
+
+non_div(N,2):-
+    N mod 2 #\= 0.
+non_div(N,M):-
+    N mod M #\= 0,
+    MM1 #= M-1,
+    non_div(N,MM1). 
+
+touslespremier(X,Y):-
+    between(2, Y, X),
+    is_prime(X).
+
+/*
+construire(N,I):-
+    is_prime(N),
+    findall(X,touslespremier(X,N),L),
+    length(L,T),
+    I #= T.
+*/
+
+
+
+/*
+construire(N, [M | L]) :-
+    M #= N - 1,
+    is_prime(M),
+    M > 1,
+    construire(M, L).
+construire(N, []) :-
+    N =< 1.
+*/
+niemeElement([T|_],1,T).
+niemeElement([_|R],N,Elt):-
+    M #= N-1,
+    niemeElement(R,M,Elt).

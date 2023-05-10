@@ -85,6 +85,3 @@ faits(M):-
     member(L14,M),
     member([f,gitane],L14),
     member([b,vin],L14).
-
-
-%pb(M,X,Y).
